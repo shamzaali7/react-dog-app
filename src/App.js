@@ -9,7 +9,7 @@ import RandomDogs from './Components/RandomDogs';
 function App() {
   const [breeds, setBreeds] = useState(null);
   const [shown, setShown] = useState(false);
-  const [breed, setBreed] = useState("akita");
+  const [breed, setBreed] = useState();
   const [input, setInput] = useState("");
   const [breedResponse, setBreedResponse] = useState()
   const [currentView, setCurrentView] = useState("breeds")
@@ -24,9 +24,7 @@ function App() {
   async function fetchBreed(){
     const dogBreed = await axios.get(`https://dog.ceo/api/breed/${input.toLowerCase()}/images/random`)
     setBreedResponse(dogBreed.data.message)
- 
   }
-  console.log(breedResponse)
 
   function handleClick(){
     if (shown == false){
@@ -40,12 +38,6 @@ function App() {
     setInput(e.target.value)
   }
 
-  function handleSubmit(e){
-    e.preventDefault();
-    let newInput = input.toLowerCase();
-    setBreed(newInput);
-    fetchBreed();
-  }
   if(!breeds){
     return <div>Loading...</div>
   };
@@ -54,9 +46,9 @@ function App() {
   return (
     <div className="myWebsite">
       <h1>My Dog Website</h1>
-      <h2 onClick={() => {setCurrentView("breeds")}}>Breeds(click Me)</h2>
+      <h3 onClick={() => {setCurrentView("breeds")}}>Breeds(click Me)</h3>
       <h3 onClick={() => {setCurrentView("random")}}>Choose Dogs(click Me)</h3>
-      {currentView == "random" && <RandomDogs breedResponse={breedResponse} input={input} handleSubmit={handleSubmit} handleChange={handleChange}/>}
+      {currentView == "random" && <RandomDogs setBreed={setBreed} fetchBreed={fetchBreed} breedResponse={breedResponse} input={input} handleChange={handleChange}/>}
       {currentView == "breeds" && <DogList breeds={breeds} handleClick={handleClick} shown={shown}/>}
 
     </div>
