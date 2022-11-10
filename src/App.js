@@ -12,7 +12,7 @@ function App() {
   const [breed, setBreed] = useState("akita");
   const [input, setInput] = useState("");
   const [breedResponse, setBreedResponse] = useState()
-  const [currentView, setCurentView] = useState()
+  const [currentView, setCurrentView] = useState("breeds")
 
   useEffect (() => {
       axios.get(`https://dog.ceo/api/breeds/list/all`)
@@ -50,14 +50,14 @@ function App() {
     return <div>Loading...</div>
   };
 
-  
-
 
   return (
-    <div>
-      
-      <RandomDogs breedResponse={breedResponse} input={input} handleSubmit={handleSubmit} handleChange={handleChange}/>
-      <DogList breeds={breeds} handleClick={handleClick} shown={shown}/>
+    <div className="myWebsite">
+      <h1>My Dog Website</h1>
+      <h2 onClick={() => {setCurrentView("breeds")}}>Breeds(click Me)</h2>
+      <h3 onClick={() => {setCurrentView("random")}}>Choose Dogs(click Me)</h3>
+      {currentView == "random" && <RandomDogs breedResponse={breedResponse} input={input} handleSubmit={handleSubmit} handleChange={handleChange}/>}
+      {currentView == "breeds" && <DogList breeds={breeds} handleClick={handleClick} shown={shown}/>}
 
     </div>
   )
